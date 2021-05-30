@@ -1,0 +1,43 @@
+---
+<<<<<<< HEAD
+layout: compress
+---
+<!doctype html>
+<html class="no-js" lang="{% if site.language == nil %}en{% else %}{{ site.language }}{% endif %}">
+<head>
+	{% include _head.html %}
+</head>
+<body id="top-of-page" class="{{ layout.format }}">
+	{% unless page.skip_boilerplate %}
+	{% include _navigation.html %}
+	{% endunless %}
+
+	{% include _masthead.html %}
+	{{ content }}
+
+	{% unless page.skip_boilerplate %}
+	{% include _footer.html %}
+	{% endunless %}
+
+	{% include _footer_scripts.html %}
+</body>
+=======
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include header.html %}
+  </head>
+  <body>
+    <div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+    <div id = "wrapper">
+      {%include navigation.html %}
+      <div class="container">
+        {{ content }}
+      </div>
+      {% include footer.html %}
+    </div>
+    {% include scripts.html %}
+  </body>
+>>>>>>> a5128cd0c316f2e41aee499faa05dbdd29f9972a
+</html>
