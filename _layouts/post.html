@@ -1,17 +1,24 @@
 ---
 layout: default
 ---
-<div id="article">
-  <div class="article-title">{{ page.title }}</div>
-  <p class="meta">
-    <small>
-      &nbsp;<i class="fa fa-calendar-o"></i> {{ page.date | date_to_string}}
-    </small>
-  </p> <hr/>
-  <div class="post">
+
+<div class="content">
+
+    <p>Published: {{ page.date | date: "%b %-d, %Y" }} by {{ page.author }}</p>
+
     {{ content }}
-  </div>
 </div>
-{% include share.html %}
-{% include pager.html %}
-{% include comment.html %}
+
+<div class="tags">
+    {% for tag in page.tags %}
+      {% include tag.html tag=tag %}
+    {% endfor %}
+</div>
+
+{% unless site.hide_share_buttons %}
+{% include share-buttons.html %}
+{% endunless %}
+
+{% if site.disqus.shortname %}
+  {% include disqus.html %}
+{% endif %}

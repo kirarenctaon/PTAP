@@ -1,43 +1,58 @@
----
-<<<<<<< HEAD
-layout: compress
----
-<!doctype html>
-<html class="no-js" lang="{% if site.language == nil %}en{% else %}{{ site.language }}{% endif %}">
-<head>
-	{% include _head.html %}
-</head>
-<body id="top-of-page" class="{{ layout.format }}">
-	{% unless page.skip_boilerplate %}
-	{% include _navigation.html %}
-	{% endunless %}
-
-	{% include _masthead.html %}
-	{{ content }}
-
-	{% unless page.skip_boilerplate %}
-	{% include _footer.html %}
-	{% endunless %}
-
-	{% include _footer_scripts.html %}
-</body>
-=======
----
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    {% include header.html %}
-  </head>
+{% if page.menubar or page.menubar_toc %}
+{% assign has_left_sidebar = true %}
+{% endif %}
+
+{% if page.show_sidebar and has_left_sidebar  %}
+{% assign content_width = 'is-4' %}
+{% elsif page.show_sidebar or has_left_sidebar %}
+{% assign content_width = 'is-8' %}
+{% else %}
+{% assign content_width = 'is-12' %}
+{% endif %}
+
+<html
+ lang="{{ site.lang | default: 'en' }}"
+ {% if site.fixed_navbar %}class="has-navbar-fixed-{{ site.fixed_navbar }}"{% endif %}>
+  {% include head.html %}
   <body>
-    <div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
-    <div id = "wrapper">
-      {%include navigation.html %}
-      <div class="container">
-        {{ content }}
-      </div>
-      {% include footer.html %}
-    </div>
-    {% include scripts.html %}
+    {% include header.html %}
+    {% unless page.hide_hero %}
+        {% include hero.html %}
+    {% endunless %}
+    {% include callouts.html %}
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                {% if page.menubar_toc %}
+                <div class="column is-4-desktop is-4-tablet">
+                    {% assign contentsTitle = page.toc_title | default: 'Contents' %}
+                    {% include toc.html html=content class='menu-list' h_min=2 h_max=3 contents_title=contentsTitle %}
+                </div>
+                {% elsif page.menubar %}
+                <div class="column is-4-desktop is-4-tablet">
+                    {% include menubar.html %}
+                </div>
+                {% endif %}
+                <div class="column {{ content_width }}">
+                    {% include tabs.html %}
+                    {% include showcase.html %}
+                    {% include sponsors.html %}
+                    {% include gallery.html %}
+                    {{ content }}
+                </div>
+                {% if site.posts and page.show_sidebar %}
+                <div class="column is-4-desktop is-12-tablet">
+                    {% include latest-posts.html %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% unless page.hide_footer %}
+        {% include footer.html %}
+    {% endunless %}
+    <script src="{{ site.baseurl }}/assets/js/app.js" type="text/javascript"></script>
+    {%- include footer-scripts.html -%}
   </body>
->>>>>>> a5128cd0c316f2e41aee499faa05dbdd29f9972a
 </html>
